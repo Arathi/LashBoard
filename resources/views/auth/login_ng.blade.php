@@ -5,11 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{{ config('app.name', 'Laravel') }}</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="{{$felcdn_bootstrap}}/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="{{$felcdn_font_awesome}}/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="{{$felcdn_ionicons}}/css/ionicons.min.css" />
-  <link rel="stylesheet" href="{{$felcdn_adminlte}}/css/AdminLTE.min.css" />
-  <link rel="stylesheet" href="{{$felcdn_icheck}}/skins/square/blue.css" />
+  <link rel="stylesheet" href="{{ cdn_asset('bootstrap') }}/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="{{ cdn_asset('font-awesome') }}/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="{{ cdn_asset('ionicons') }}/css/ionicons.min.css" />
+  <link rel="stylesheet" href="{{ cdn_asset('admin-lte') }}/css/AdminLTE.min.css" />
+  <link rel="stylesheet" href="{{ cdn_asset('iCheck') }}/skins/square/blue.css" />
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,7 +27,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">用户登录</p>
 
-    <form action="{!! url('auth/login') !!}" method="post">
+    <form action="{!! url('login') !!}" method="post">
       {!! csrf_field() !!}
       <div class="form-group has-feedback">
         <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="E-mail">
@@ -54,16 +54,16 @@
     </form>
 
     <a href="#">忘记密码？点此重置</a><br>
-    <a href="{!! url('auth/register') !!}" class="text-center">没有账号？点此注册</a>
+    <a href="{!! url('register') !!}" class="text-center">没有账号？点此注册</a>
 
   </div>
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
 
-<script src="{{$felcdn_jquery}}/jquery.min.js"></script>
-<script src="{{$felcdn_bootstrap}}/js/bootstrap.min.js"></script>
-<script src="{{$felcdn_icheck}}/icheck.min.js"></script>
+<script src="{{ cdn_asset('jquery') }}/jquery.min.js"></script>
+<script src="{{ cdn_asset('bootstrap') }}/js/bootstrap.min.js"></script>
+<script src="{{ cdn_asset('iCheck') }}/icheck.min.js"></script>
 <script>
   $(function () {
     $('input').iCheck({
