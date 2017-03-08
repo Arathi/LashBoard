@@ -23,6 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data = [
+            'page_name' => '首页',
+            'page_description' => '首页说明',
+            'menu_tree' => []
+        ];
+        return view('layouts.dashboard', $data);
     }
 }

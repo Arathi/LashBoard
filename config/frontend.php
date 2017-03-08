@@ -3,6 +3,10 @@
 return [
     // CDN站点信息
     'cdns' => [
+        'disable' => [
+            'name' => 'local',
+            'description' => '不使用CDN',
+        ],
         'bootcdn' => [
             'name' => 'BootCDN',
             'description' => '稳定、快速、免费的前端开源项目 CDN 服务',
@@ -22,7 +26,7 @@ return [
     'libs' => [
         'jquery' => [
             'name' => 'jQuery',
-            'version' => '1.11.3',
+            'version' => '2.2.4',
         ],
         'bootstrap' => [
             'name' => 'Bootstrap',
