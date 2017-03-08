@@ -9,3 +9,6 @@ Homestead.yaml
 .env
 composer.lock
 /resources/*/vendor/
+*.sublime*
+/database/*.db
+/database/*.sqlite

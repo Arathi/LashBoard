@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{!! url('/') !!}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>La</b>b</span>
+      <span class="logo-mini"><b>La</b>B</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>La</b>shboard</span>
+      <span class="logo-lg"><b>La</b>shBoard</span>
     </a>
 
     <!-- Header Navbar -->
@@ -18,7 +18,8 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
+
+          <!-- Messages: style can be found in dropdown.less 消息 -->
           <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -54,7 +55,7 @@
           </li>
           <!-- /.messages-menu -->
 
-          <!-- Notifications Menu -->
+          <!-- Notifications Menu 通知 -->
           <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -77,7 +78,7 @@
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
-          <!-- Tasks Menu -->
+          <!-- Tasks Menu 任务 -->
           <li class="dropdown tasks-menu">
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -128,8 +129,8 @@
                 <img src="{{$user_avatar_url or config('app.default_avatar', asset('img/avatar.png')) }}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{ Auth::user()->name }} - {{ Auth::user()->name }}
-                  <small>Member since {{ Auth::user()->created_at }}</small>
+                  {{ Auth::user()->name }} - {{ Auth::user()->role->name }}
+                  <small>注册于 {{ Auth::user()->created_at }}</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -153,7 +154,7 @@
                   <a href="#" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
-                  <a href="{!! url('auth/logout') !!}" class="btn btn-default btn-flat">注销</a>
+                  <a href="{{ route('logout') }}" class="btn btn-default btn-flat">注销</a>
                 </div>
               </li>
             </ul>
