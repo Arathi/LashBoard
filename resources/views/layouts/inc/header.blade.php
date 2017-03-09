@@ -24,33 +24,41 @@
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
+              @if ( count($messages)>0 )
+              <span class="label label-success">{{ count($messages) }}</span>
+              @endif
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
+              @if ( count($messages)>0 )
+              <li class="header">你有 {{ count($messages) }} 条新消息</li>
+              @else
+              <li class="header">暂无新消息</li>
+              @endif
               <li>
                 <!-- inner menu: contains the messages -->
                 <ul class="menu">
+                  @foreach ( $messages as $message )
                   <li><!-- start message -->
-                    <a href="#">
+                    <a href="{{ $message['url'] }}">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="{{$user_avatar_url or config('app.default_avatar', asset('img/avatar.png')) }}" class="img-circle" alt="User Image">
+                        <img src="{{ $message['sender_avatar'] or config('app.default_avatar', asset('img/avatar.png')) }}" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
                       <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                        {{ $message['sender_name'] }}
+                        <small><i class="fa fa-clock-o"></i> {{ $message['post_time'] }}</small>
                       </h4>
                       <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
+                      <p>{{ $message['content'] }}</p>
                     </a>
                   </li>
                   <!-- end message -->
+                  @endforeach
                 </ul>
                 <!-- /.menu -->
               </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
+              <li class="footer"><a href="#">查看所有消息</a></li>
             </ul>
           </li>
           <!-- /.messages-menu -->
@@ -60,22 +68,30 @@
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
+              @if ( count($notifications)>0 )
               <span class="label label-warning">10</span>
+              @endif
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              @if ( count($notifications)>0 )
+              <li class="header">你收到 {{ count($notifications) }} 条通知</li>
+              @else
+              <li class="header">暂无通知</li>
+              @endif
               <li>
                 <!-- Inner Menu: contains the notifications -->
                 <ul class="menu">
+                  @foreach ($notifications as $notification)
                   <li><!-- start notification -->
                     <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      <i class="{{ $notification['icon'] }}"></i> {{ $notification['content'] }}
                     </a>
                   </li>
                   <!-- end notification -->
+                  @endforeach
                 </ul>
               </li>
-              <li class="footer"><a href="#">View all</a></li>
+              <li class="footer"><a href="#">查看所有通知</a></li>
             </ul>
           </li>
           <!-- Tasks Menu 任务 -->
@@ -83,34 +99,42 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
+              @if (count($tasks)>0)
+              <span class="label label-danger">{{ count($tasks) }}</span>
+              @endif
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
+              @if (count($tasks) > 0)
+              <li class="header">你有 {{ count($tasks) }} 个任务</li>
+              @else
+              <li class="header">暂无任务</li>
+              @endif
               <li>
                 <!-- Inner menu: contains the tasks -->
                 <ul class="menu">
+                  @foreach ($tasks as $task)
                   <li><!-- Task item -->
                     <a href="#">
                       <!-- Task title and progress text -->
                       <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
+                        {{ $task['name'] }}
+                        <small class="pull-right">{{ $task['completion_rate'] }}%</small>
                       </h3>
                       <!-- The progress bar -->
                       <div class="progress xs">
                         <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
+                        <div class="progress-bar progress-bar-aqua" style="width: {{ $task['completion_rate'] }}%" role="progressbar" aria-valuenow="{{ $task['completion_rate'] }}" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">已完成 {{ $task['completion_rate'] }}%</span>
                         </div>
                       </div>
                     </a>
                   </li>
                   <!-- end task item -->
+                  @endforeach
                 </ul>
               </li>
               <li class="footer">
-                <a href="#">View all tasks</a>
+                <a href="#">查看所有任务</a>
               </li>
             </ul>
           </li>
