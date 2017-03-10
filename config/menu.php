@@ -7,5 +7,5 @@ return [
     'json_file' => '',
 
     // 如果从数据库中获取菜单，在此项中填写菜单相关的模型
-    'menu_model' => App\Models\Menu::class,
+    'menu_model' => null,
 ];

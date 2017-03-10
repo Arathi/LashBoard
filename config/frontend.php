@@ -47,6 +47,19 @@ return [
         'iCheck' => [
             'name' => 'iCheck',
             'version' => '1.0.2'
+        ],
+        'datatables' => [
+            'name' => 'DataTables',
+            'version' => '1.10.13'
+        ],
+        'slimScroll' => [
+            'name' => 'jQuery slimScroll',
+            'version' => '1.3.8',
+            'name_in_cdn' => 'jQuery-slimScroll'
+        ],
+        'fastclick' => [
+            'name' => 'FastClick',
+            'version' => '1.0.6'
         ]
     ]
 ];

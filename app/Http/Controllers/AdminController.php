@@ -16,11 +16,11 @@ abstract class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    protected function parse($view, $data)
+    protected function parse($view, $data, $menu_tree_tag = null)
     {
         $addition = array();
 
-        $addition['menu_tree'] = $this->get_menu_tree();
+        $addition['menu_tree'] = $this->get_menu_tree($menu_tree_tag);
 
         if (config('feature.message', false))
             $addition['messages'] = $this->get_messages();
@@ -34,7 +34,7 @@ abstract class AdminController extends Controller
         return view($view, $data, $addition);
     }
 
-    protected function get_menu_tree()
+    protected function get_menu_tree($current_menu_tag)
     {
         $menuConfigMode = config('menu.config_mode', 'json');
         $menuTree = array();
@@ -47,9 +47,12 @@ abstract class AdminController extends Controller
             foreach ($menusJson as $menuJson)
             {
                 // TODO 合并菜单项样式（header、listview、active等）
-                // TODO 检查当前页面是否需要设置为active样式
                 $menu_item_style = '';
                 $styles = $menuJson->styles;
+                // 检查当前页面是否需要设置为active样式
+                if ($current_menu_tag == $menuJson->tag)
+                    $styles[] = 'active';
+
                 foreach ($styles as $style)
                 {
                     $menu_item_style .= $style . ' ';

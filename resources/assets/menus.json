@@ -2,6 +2,7 @@
     {
         "styles": ["header"],
         "caption": "平台管理",
+        "tag": "header_platform",
         "icon": "",
         "target_type": null,
         "target": null
@@ -9,29 +10,33 @@
     {
         "styles": [],
         "caption": "用户管理",
+        "tag": "mgmt_user",
         "icon": "fa fa-user",
         "target_type": "url",
-        "target": "admin/user"
+        "target": "management/user"
     },
     {
         "styles": [],
         "caption": "角色管理",
+        "tag": "mgmt_role",
         "icon": "fa fa-users",
         "target_type": "url",
-        "target": "admin/role"
+        "target": "management/role"
     },
     {
         "styles": [],
         "caption": "菜单管理",
+        "tag": "mgmt_menu",
         "icon": "fa fa-list",
         "target_type": "url",
-        "target": "admin/menu"
+        "target": "management/menu"
     },
     {
         "styles": [],
         "caption": "权限管理",
+        "tag": "mgmt_auth",
         "icon": "fa fa-user-secret",
         "target_type": "url",
-        "target": "admin/auth"
+        "target": "management/auth"
     }
 ]
