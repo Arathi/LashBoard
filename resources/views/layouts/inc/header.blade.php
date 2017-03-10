@@ -178,7 +178,15 @@
                   <a href="#" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
-                  <a href="{{ route('logout') }}" class="btn btn-default btn-flat">注销</a>
+                  <a href="{{ route('logout') }} "
+                    class="btn btn-default btn-flat"
+                    onclick="event.preventDefault();
+                             document.getElementById('logout-form').submit();">
+                      注销
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      {{ csrf_field() }}
+                  </form>
                 </div>
               </li>
             </ul>

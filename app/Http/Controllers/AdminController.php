@@ -30,7 +30,7 @@ abstract class AdminController extends Controller
 
     protected function get_menu_tree()
     {
-        return config('menu.default-menu');
+        return config('menu.default-menu', []);
     }
 
     protected function get_messages()
