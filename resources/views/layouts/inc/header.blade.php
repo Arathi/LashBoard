@@ -19,6 +19,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
+          @if ( config('feature.message', false) )
           <!-- Messages: style can be found in dropdown.less 消息 -->
           <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
@@ -62,7 +63,9 @@
             </ul>
           </li>
           <!-- /.messages-menu -->
+          @endif
 
+          @if ( config('notification', false) )
           <!-- Notifications Menu 通知 -->
           <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
@@ -94,6 +97,9 @@
               <li class="footer"><a href="#">查看所有通知</a></li>
             </ul>
           </li>
+          @endif
+
+          @if ( config('feature.task', false) )
           <!-- Tasks Menu 任务 -->
           <li class="dropdown tasks-menu">
             <!-- Menu Toggle Button -->
@@ -138,6 +144,8 @@
               </li>
             </ul>
           </li>
+          @endif
+
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->

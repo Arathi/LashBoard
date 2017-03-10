@@ -18,12 +18,18 @@ abstract class AdminController extends Controller
 
     protected function parse($view, $data)
     {
-        $addition = [
-            'menu_tree' => $this->get_menu_tree(),
-            'messages' => $this->get_messages(),
-            'notifications' => $this->get_notifications(),
-            'tasks' => $this->get_tasks(),
-        ];
+        $addition = array();
+
+        $addition['menu_tree'] = $this->get_menu_tree();
+
+        if (config('feature.message', false))
+            $addition['messages'] = $this->get_messages();
+
+        if (config('feature.notification', false))
+            $addition['notifications'] = $this->get_notifications();
+
+        if (config('feature.task', false))
+            $addition['tasks'] = $this->get_tasks();
 
         return view($view, $data, $addition);
     }
