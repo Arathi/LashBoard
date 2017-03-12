@@ -12,22 +12,22 @@
         <div class="pull-left info">
           <p>{{ Auth::user()->name }}</p>
           <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         @foreach ($menu_tree as $menu)
-        <li class="{{$menu['style'] or ''}}">
-          @if ( isset($menu['style']) && $menu['style']=='header' )
-          <span>{{$menu['caption']}}</span>
+        <li class="{{ $menu->style or '' }}">
+          @if ( $menu->style == 'header' )
+          <span>{{ $menu->caption }}</span>
           @else
-          <a href="{{$menu['url'] or ''}}">
-            @if ( isset($menu['icon']) )
-            <i class="{{$menu['icon']}}"></i>
+          <a href="{{ $menu->url or '' }}">
+            @if ( isset( $menu->icon ) )
+            <i class="{{ $menu->icon }}"></i>
             @endif
-            <span>{{$menu['caption']}}</span>
+            <span>{{ $menu->caption }}</span>
           </a>
           @endif
         </li>

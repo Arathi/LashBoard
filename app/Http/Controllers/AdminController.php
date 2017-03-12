@@ -20,7 +20,7 @@ abstract class AdminController extends Controller
     {
         $addition = array();
 
-        $addition['menu_tree'] = $this->get_menu_tree($menu_tree_tag);
+        $addition['menu_tree'] = $this->get_menu_tree($menu_tree_tag); //arrobj();
 
         if (config('feature.message', false))
             $addition['messages'] = $this->get_messages();
@@ -89,12 +89,13 @@ abstract class AdminController extends Controller
                 // TODO 根据$menuJson['icon']的值自动拼接
                 $icon_style = $menuJson->icon;
 
-                $menuTree[] = [
+                $menu = [
                     'style' => $menu_item_style,
                     'url' => $url,
                     'caption' => $caption,
                     'icon' => $icon_style
                 ];
+                $menuTree[] = atobj($menu);
             }
         }
         else if ($menuTree == 'db')

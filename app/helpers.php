@@ -1,5 +1,7 @@
 <?php
 
+use App\Common\ArrayWrapper;
+
 if (! function_exists('cdn_asset')) {
     function cdn_asset($library, $version=null, $cdn=null)
     {
@@ -20,5 +22,12 @@ if (! function_exists('cdn_asset')) {
             $prefix = $baseUrl . '/' . $libName . '/' . $libVer;
         }
         return $prefix;
+    }
+}
+
+if (! function_exists('atobj')) {
+    function atobj($array)
+    {
+        return new ArrayWrapper($array);
     }
 }

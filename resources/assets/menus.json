@@ -8,7 +8,7 @@
         "target": null
     },
     {
-        "styles": [],
+        "styles": ["menu-item"],
         "caption": "用户管理",
         "tag": "mgmt_user",
         "icon": "fa fa-user",
@@ -16,7 +16,7 @@
         "target": "management/user"
     },
     {
-        "styles": [],
+        "styles": ["menu-item"],
         "caption": "角色管理",
         "tag": "mgmt_role",
         "icon": "fa fa-users",
@@ -24,7 +24,7 @@
         "target": "management/role"
     },
     {
-        "styles": [],
+        "styles": ["menu-item"],
         "caption": "菜单管理",
         "tag": "mgmt_menu",
         "icon": "fa fa-list",
@@ -32,7 +32,7 @@
         "target": "management/menu"
     },
     {
-        "styles": [],
+        "styles": ["menu-item"],
         "caption": "权限管理",
         "tag": "mgmt_auth",
         "icon": "fa fa-user-secret",
