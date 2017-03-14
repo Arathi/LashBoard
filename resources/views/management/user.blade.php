@@ -23,31 +23,20 @@
       <tr>
         <th>UID</th>
         <th>头像</th>
+        <th>邮箱</th>
         <th>用户名</th>
         <th>注册日期</th>
         <th>最后活跃</th>
         <th>操作</th>
       </tr>
       </thead>
-      <tbody>
-      @foreach ($users as $user)
-      <tr>
-        <td>{{$user->id}}</td>
-        <td><img width=34 height=34 src="{{ $user->avatar or config('app.default_avatar', asset('img/avatar.png')) }}"></td>
-        <td>{{ $user->name }}</td>
-        <td>{{ $user->created_at }}</td>
-        <td>{{ $user->updated_at }}</td>
-        <td>
-          <a id='btn-edit-{{$user->id}}' href='#' class='btn btn-primary btn-user-edit'>编辑</a>
-          <a id='btn-delete-{{$user->id}}' href='#' class='btn btn-danger btn-user-delete'>删除</a>
-        </td>
-      </tr>
-      @endforeach
+      <tbody id="user-list-body">
       </tbody>
       <tfoot>
       <tr>
         <th>UID</th>
         <th>头像</th>
+        <th>邮箱</th>
         <th>用户名</th>
         <th>注册日期</th>
         <th>最后活跃</th>
@@ -118,6 +107,67 @@
 </div>
 @show
 
+@section('dialog-user-edit')
+<div class="modal fade" id="model-user-edit" tabindex="-1" role="dialog" aria-labelledby="model-label-edit-user">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="model-label-create-user">编辑用户</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="form-user-create">
+          <div class="box-body">
+            <input type="hidden" name="id" value="" />
+
+            <div class="form-group">
+              <label for="new-user-name" class="col-sm-3 control-label">用户名：</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" name="name" placeholder="username" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="new-user-roleid" class="col-sm-3 control-label">角色：</label>
+              <div class="col-sm-6">
+                <select class="form-control" name="role_id">
+                  @foreach($roles as $role)
+                  <option value='{{ $role->id }}'>{{ $role->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="new-user-email" class="col-sm-3 control-label">E-Mail：</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" name="email" placeholder="email" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="new-user-password" class="col-sm-3 control-label">密码：</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" name="password" placeholder="password" />
+              </div>
+            </div>
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-user-edit-submit" type="button" class="btn btn-primary">添加</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+@show
+
 @endsection
 
 @section('js_custom')
@@ -141,16 +191,57 @@
         "next":     "下一页",
         "previous": "上一页"
       },
-    }
+    },
+    "columns": [
+      { data: "id" },
+      { data: "avatar" },
+      { data: "email" },
+      { data: "name" },
+      { data: "created_at" },
+      { data: "updated_at" },
+      { data: "buttons" }
+    ],
+    "columnDefs": [
+      {
+        "render": function(data, type, row){
+          return "<img width=34 height=34 src='" + row[1] + "''>";
+        },
+        "targets": 1
+      },
+      {
+        "render": function(data, type, row){
+          return "<a id='btn-edit-0' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
+            "<a id='btn-delete-0' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
+        },
+        "targets": 6
+      }
+    ]
   };
+
+  function update_user_list(list, id)
+  {
+    $.ajax({ 
+      type: "GET",
+      url: "{{ url('management/user') }}/" + id,
+      success: function(data){
+        if (id == 'all')
+        {
+          list.clear();
+        }
+        list.rows.add(data).draw();
+      }
+    });
+  }
+
   $(function () {
-    $("#user-list").DataTable(chinese);
+    var userList = $("#user-list").DataTable(chinese);
+    update_user_list(userList, 'all');
   });
+
   $('#btn-user-create').click(function(){
-    console.log("点击添加按钮");
   });
+
   $('#btn-user-create-submit').click(function(){
-    console.log("点击提交按钮");
     $.ajax({
       cache: true,
       type: "POST",
@@ -165,8 +256,14 @@
         alert("用户创建成功！");
         // TODO 实现局部刷新表格中的数据
         // location.reload();
+        update_user_list(data.new_user_id);
+        $('#model-user-create').modal('hide');
       }
     });
   });
+
+  $
+
+  // $('.btn-user-edit').click()
 </script>
 @endsection

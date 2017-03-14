@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('home', 'HomeController@index')->name('home');
 
-Route::resource('management/user', 'Management\UserController');
+Route::resource('management/user', 'Management\UserController', ['except' => [ 'create', 'edit' ]]);

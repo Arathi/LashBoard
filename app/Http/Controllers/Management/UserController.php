@@ -32,16 +32,6 @@ class UserController extends AdminController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,7 +39,34 @@ class UserController extends AdminController
      */
     public function store(Request $request)
     {
-        //
+        $respData = [];
+        $statusCode = 200;
+
+        $userData = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'role_id' => $request->input('role_id'),
+            'password' => bcrypt($request->input('password')),
+        ];
+
+        // try
+        // {
+        //     
+        // }
+        $user = User::create($userData);
+        if ($user->id > 0)
+        {
+            $respData['code'] = 0;
+            $respData['message'] = '创建成功';
+            $respData['new_user_id'] = $user->id;
+        }
+        else
+        {
+            $respData['code'] = 1;
+            $respData['message'] = '创建失败';
+            $statusCode = 500;
+        }
+        return response()->json($respData, $statusCode);
     }
 
     /**
@@ -60,18 +77,30 @@ class UserController extends AdminController
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $statusCode = 200;
+        $users = null;
+        if ($id == 'all')
+        {
+            $users = User::all();
+            if ($users->count() == 0)
+            {
+                $statusCode = 404;
+            }
+        }
+        else
+        {
+            $users = [];
+            $user = User::find($id);
+            if ($user == null)
+            {
+                $statusCode = 404;
+            }
+            else
+            {
+                $users[] = $user;
+            }
+        }
+        return response()->json($users, $statusCode);
     }
 
     /**
