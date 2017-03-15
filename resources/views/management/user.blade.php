@@ -1,8 +1,4 @@
-@extends('layouts.dashboard')
-
-@section('css_custom')
-<link rel="stylesheet" href="{{ cdn_asset('datatables') }}/css/dataTables.bootstrap.css">
-@endsection
+@extends('layouts.table_based')
 
 @section('content')
 <div class='row'>
@@ -25,6 +21,7 @@
         <th>头像</th>
         <th>邮箱</th>
         <th>用户名</th>
+        <th>角色</th>
         <th>注册日期</th>
         <th>最后活跃</th>
         <th>操作</th>
@@ -38,6 +35,7 @@
         <th>头像</th>
         <th>邮箱</th>
         <th>用户名</th>
+        <th>角色</th>
         <th>注册日期</th>
         <th>最后活跃</th>
         <th>操作</th>
@@ -171,32 +169,16 @@
 @endsection
 
 @section('js_custom')
-<script src="{{ cdn_asset('datatables') }}/js/jquery.dataTables.min.js"></script>
-<script src="{{ cdn_asset('datatables') }}/js/dataTables.bootstrap.min.js"></script>
-<script src="{{ cdn_asset('slimScroll') }}/jquery.slimscroll.min.js"></script>
-<script src="{{ cdn_asset('fastclick') }}/fastclick.min.js"></script>
-
+@parent
 <script>
   var dataTableConfig = {
-    "language": {
-      "lengthMenu": "每页 _MENU_ 条记录",
-      "zeroRecords": "暂无记录",
-      "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-      "infoEmpty": "无记录",
-      "infoFiltered": "(从 _MAX_ 条记录过滤)",
-      "search": "搜索：",
-      "paginate": {
-        "first":    "首页",
-        "last":     "尾页",
-        "next":     "下一页",
-        "previous": "上一页"
-      },
-    },
+    "language": chinese,
     "columns": [
       { data: "id" },
       { data: "avatar" },
       { data: "email" },
       { data: "name" },
+      { data: "role_name" },
       { data: "created_at" },
       { data: "updated_at" },
       { data: "buttons" }
@@ -211,12 +193,10 @@
       },
       {
         "render": function(data, type, row){
-          // return "<a id='btn-edit-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
-          //      "<a id='btn-delete-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
           return "<button type='button' bind_user_id='" + row.id + "' class='btn btn-primary btn-user-edit'>编辑</button>&nbsp;" +
                 "<button type='button' bind_user_id='" + row.id + "' class='btn btn-danger btn-user-delete'>删除</button>";
         },
-        "targets": 6
+        "targets": 7
       }
     ]
   };
@@ -255,7 +235,6 @@
         $('button.btn-user-delete').each(function(){
           $(this).click(function(){
             var user_id = $(this).attr('bind_user_id');
-            // console.log('点击用户' + user_id + '的删除按钮');
             delete_user_by_id(user_id);
           });
         });
@@ -264,17 +243,7 @@
   }
 
   function create_user()
-  {}
-
-  $(function () {
-    userList = $("#user-list").DataTable(dataTableConfig);
-    update_user_list(userList, 'all');
-  });
-
-  $('#btn-user-create').click(function(){
-  });
-
-  $('#btn-user-create-submit').click(function(){
+  {
     $.ajax({
       cache: true,
       type: "POST",
@@ -287,13 +256,19 @@
       },
       success: function(data) {
         alert("用户创建成功！");
-        // TODO 实现局部刷新表格中的数据
-        // location.reload();
+        // 实现局部刷新表格中的数据
         update_user_list(userList, data.new_user_id);
         $('#model-user-create').modal('hide');
       }
     });
+  }
+
+  $(function () {
+    userList = $("#user-list").DataTable(dataTableConfig);
+    update_user_list(userList, 'all');
   });
+
+  $('#btn-user-create-submit').click(create_user);
 
 </script>
 @endsection

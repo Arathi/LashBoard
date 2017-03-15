@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 
 use Auth;
-use App\Models\User;
 use App\Models\Role;
 
-class UserController extends AdminController
+class RoleController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -18,18 +17,13 @@ class UserController extends AdminController
      */
     public function index()
     {
-        $users = User::all();
         $roles = Role::all();
 
-        if ($users == null) $users = [];
-
         $data = [
-            'page_name' => '用户管理',
-            'page_description' => '对用户进行增删改查等操作',
-            'users' => $users,
-            'roles' => $roles,
+            'page_name' => '角色管理',
+            'page_description' => '对角色进行增删改查等操作',
         ];
-        return $this->parse('management.user', $data, 'mgmt_user');
+        return $this->parse('management.role', $data, 'mgmt_role');
     }
 
     /**
@@ -43,19 +37,18 @@ class UserController extends AdminController
         $respData = [];
         $statusCode = 200;
 
-        $userData = [
+        $roleData = [
             'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'role_id' => $request->input('role_id'),
-            'password' => bcrypt($request->input('password')),
+            'tag' => $request->input('tag'),
+            'description' => $request->input('description'),
         ];
 
-        $user = User::create($userData);
-        if ($user->id > 0)
+        $role = Role::create($roleData);
+        if ($role->id > 0)
         {
             $respData['code'] = 0;
             $respData['message'] = '创建成功';
-            $respData['new_user_id'] = $user->id;
+            $respData['new_role_id'] = $role->id;
         }
         else
         {
@@ -75,32 +68,35 @@ class UserController extends AdminController
     public function show($id)
     {
         $statusCode = 200;
-        $users = null;
+        $roles = null;
+
         if ($id == 'all')
         {
-            $users = User::all();
-            if ($users->count() == 0)
+            $roles = Role::all();
+            if ($roles->count() == 0)
             {
                 $statusCode = 404;
             }
-            foreach ($users as $user)
+            foreach ($roles as $role)
             {
-                $user->role_name = $user->role->name;
+                $role->element_count = $role->elements()->count();
             }
         }
         else
         {
-            $user = User::find($id);
-            if ($user == null)
+            $role = Role::find($id);
+            if ($role == null)
             {
                 $statusCode = 404;
             }
             else
             {
-                $users = [ $user ];
+                $role->element_count = $role->elements()->count();
+                $roles = [ $role ];
             }
         }
-        return response()->json($users, $statusCode);
+
+        return response()->json($roles, $statusCode);
     }
 
     /**
@@ -126,34 +122,27 @@ class UserController extends AdminController
         $errorCode = 0;
         $statusCode = 200;
         $message = '';
-        // 不能删除自己
-        $currentUserId = Auth::id();
+
+        // 不能删除tag为guest、admin的这两个内部角色
+        $role = Role::find($id);
         do
         {
-            if ($currentUserId == $id)
+            if ($role == null)
+            {
+                break;
+            }
+            if ($role->tag == 'guest' || $role->tag == 'admin')
             {
                 $errorCode = 1;
-                $statusCode = 403;
-                $message = "不能删除自己的账户！";
+                $message = '不能删除内置角色';
                 break;
             }
 
-            $user = User::find($id);
-            if ($user == null)
-            {
-                $errorCode = 2;
-                $statusCode = 404;
-                $message = "要删除的账号并不存在！";
-                break;
-            }
-
-            // TODO 无法删除上级用户
-
-            // 执行删除用户
-            $user->delete();
+            $role->delete();
+            $message = '删除角色成功';
         }
         while (false);
-
+        
         $respData = [
             'code' => $errorCode,
             'message' => $message
