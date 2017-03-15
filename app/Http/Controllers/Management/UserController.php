@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 
+use Auth;
 use App\Models\User;
 use App\Models\Role;
 
@@ -123,6 +124,41 @@ class UserController extends AdminController
      */
     public function destroy($id)
     {
-        //
+        $errorCode = 0;
+        $statusCode = 200;
+        $message = '';
+        // 不能删除自己
+        $currentUserId = Auth::id();
+        do
+        {
+            if ($currentUserId == $id)
+            {
+                $errorCode = 1;
+                $statusCode = 403;
+                $message = "不能删除自己的账户！";
+                break;
+            }
+
+            $user = User::find($id);
+            if ($user == null)
+            {
+                $errorCode = 2;
+                $statusCode = 404;
+                $message = "要删除的账号并不存在！";
+                break;
+            }
+
+            // TODO 无法删除上级用户
+
+            // 执行删除用户
+            $user->delete();
+        }
+        while (false);
+
+        $respData = [
+            'code' => $errorCode,
+            'message' => $message
+        ];
+        return response()->json($respData, $statusCode);
     }
 }

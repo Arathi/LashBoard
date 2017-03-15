@@ -211,13 +211,35 @@
       },
       {
         "render": function(data, type, row){
-          return "<a id='btn-edit-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
-               "<a id='btn-delete-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
+          // return "<a id='btn-edit-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
+          //      "<a id='btn-delete-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
+          return "<button type='button' bind_user_id='" + row.id + "' class='btn btn-primary btn-user-edit'>编辑</button>&nbsp;" +
+                "<button type='button' bind_user_id='" + row.id + "' class='btn btn-danger btn-user-delete'>删除</button>";
         },
         "targets": 6
       }
     ]
   };
+
+  function delete_user_by_id(id)
+  {
+    $.ajax({
+      type: "POST",
+      url: "{{ url('management/user') }}/" + id,
+      data: { 
+        _method: 'delete', 
+        _token : '{{ csrf_token() }}'
+      },
+      success: function(data){
+        alert("用户删除成功！");
+        update_user_list(userList, 'all');
+      },
+      error: function(response) {
+        var data = response.responseJSON;
+        alert("用户删除失败：" + data.message);
+      }
+    });
+  }
 
   function update_user_list(list, id)
   {
@@ -230,9 +252,19 @@
           list.clear();
         }
         list.rows.add(data).draw();
+        $('button.btn-user-delete').each(function(){
+          $(this).click(function(){
+            var user_id = $(this).attr('bind_user_id');
+            // console.log('点击用户' + user_id + '的删除按钮');
+            delete_user_by_id(user_id);
+          });
+        });
       }
     });
   }
+
+  function create_user()
+  {}
 
   $(function () {
     userList = $("#user-list").DataTable(dataTableConfig);
@@ -263,8 +295,5 @@
     });
   });
 
-  $
-
-  // $('.btn-user-edit').click()
 </script>
 @endsection
