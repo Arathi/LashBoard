@@ -10,6 +10,11 @@ use App\Models\User;
 use App\Models\Role;
 use App\Common\TableColumn;
 
+/**
+ * 用户控制器
+ * 
+ * @Route(mode="resource", pattern="/management/user", name="user")
+ */
 class UserController extends AdminController
 {
     /**
@@ -19,7 +24,6 @@ class UserController extends AdminController
      */
     public function index()
     {
-        $users = User::all();
         $roles = Role::all();
 
         $columns = [
@@ -39,7 +43,6 @@ class UserController extends AdminController
             'page_description' => '对用户进行增删改查等操作',
             'object_name' => '用户',
             'resource_url' => url('management/user'),
-            'users' => $users,
             'roles' => $roles,
             'columns' => $columns,
         ];

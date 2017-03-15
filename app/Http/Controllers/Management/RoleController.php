@@ -18,8 +18,6 @@ class RoleController extends AdminController
      */
     public function index()
     {
-        $roles = Role::all();
-
         $columns = [
             new TableColumn('角色编号', 'id'),
             new TableColumn('名称', 'name'),
