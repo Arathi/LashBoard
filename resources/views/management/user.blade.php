@@ -177,7 +177,7 @@
 <script src="{{ cdn_asset('fastclick') }}/fastclick.min.js"></script>
 
 <script>
-  var chinese = {
+  var dataTableConfig = {
     "language": {
       "lengthMenu": "每页 _MENU_ 条记录",
       "zeroRecords": "暂无记录",
@@ -204,14 +204,15 @@
     "columnDefs": [
       {
         "render": function(data, type, row){
-          return "<img width=34 height=34 src='" + row[1] + "''>";
+          var avatar = (row.avatar == undefined) ? "{{ config('app.default_avatar', asset('img/avatar.png')) }}" : row.avatar;
+          return "<img width=34 height=34 src='" + avatar + "'/>";
         },
         "targets": 1
       },
       {
         "render": function(data, type, row){
-          return "<a id='btn-edit-0' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
-            "<a id='btn-delete-0' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
+          return "<a id='btn-edit-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-primary btn-user-edit'>编辑</a>" +
+               "<a id='btn-delete-" + row.id + "' bind_user_id='" + row.id + "' href='#' class='btn btn-danger btn-user-delete'>删除</a>";
         },
         "targets": 6
       }
@@ -234,7 +235,7 @@
   }
 
   $(function () {
-    var userList = $("#user-list").DataTable(chinese);
+    userList = $("#user-list").DataTable(dataTableConfig);
     update_user_list(userList, 'all');
   });
 
@@ -256,7 +257,7 @@
         alert("用户创建成功！");
         // TODO 实现局部刷新表格中的数据
         // location.reload();
-        update_user_list(data.new_user_id);
+        update_user_list(userList, data.new_user_id);
         $('#model-user-create').modal('hide');
       }
     });
