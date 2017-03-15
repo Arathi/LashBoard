@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use Auth;
 use App\Models\User;
 use App\Models\Role;
+use App\Common\TableColumn;
 
 class UserController extends AdminController
 {
@@ -21,13 +22,26 @@ class UserController extends AdminController
         $users = User::all();
         $roles = Role::all();
 
+        $columns = [
+            new TableColumn('UID', 'id'),
+            new TableColumn('头像', 'avatar'),
+            new TableColumn('邮箱', 'email'),
+            new TableColumn('用户名', 'name'),
+            new TableColumn('角色', 'role_name'),
+            new TableColumn('创建时间', 'created_at'),
+            new TableColumn('最后活跃', 'updated_at'),
+        ];
+
         if ($users == null) $users = [];
 
         $data = [
             'page_name' => '用户管理',
             'page_description' => '对用户进行增删改查等操作',
+            'object_name' => '用户',
+            'resource_url' => url('management/user'),
             'users' => $users,
             'roles' => $roles,
+            'columns' => $columns,
         ];
         return $this->parse('management.user', $data, 'mgmt_user');
     }
@@ -55,7 +69,7 @@ class UserController extends AdminController
         {
             $respData['code'] = 0;
             $respData['message'] = '创建成功';
-            $respData['new_user_id'] = $user->id;
+            $respData['new_record_id'] = $user->id;
         }
         else
         {
@@ -97,6 +111,7 @@ class UserController extends AdminController
             }
             else
             {
+                $user->role_name = $user->role->name;
                 $users = [ $user ];
             }
         }

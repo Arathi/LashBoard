@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 
 use Auth;
 use App\Models\Role;
+use App\Common\TableColumn;
 
 class RoleController extends AdminController
 {
@@ -19,9 +20,19 @@ class RoleController extends AdminController
     {
         $roles = Role::all();
 
+        $columns = [
+            new TableColumn('角色编号', 'id'),
+            new TableColumn('名称', 'name'),
+            new TableColumn('标识', 'tag'),
+            new TableColumn('人数', 'element_count'),
+        ];
+
         $data = [
             'page_name' => '角色管理',
             'page_description' => '对角色进行增删改查等操作',
+            'object_name' => '角色',
+            'resource_url' => url('management/role'),
+            'columns' => $columns,
         ];
         return $this->parse('management.role', $data, 'mgmt_role');
     }
@@ -48,7 +59,7 @@ class RoleController extends AdminController
         {
             $respData['code'] = 0;
             $respData['message'] = '创建成功';
-            $respData['new_role_id'] = $role->id;
+            $respData['new_record_id'] = $role->id;
         }
         else
         {
