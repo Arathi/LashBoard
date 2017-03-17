@@ -57,9 +57,36 @@
         <form class="form-horizontal" id="form-object-create">
           <div class="box-body">
             @yield('dialog-main-content')
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
           </div>
-          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-object-create-submit" type="button" class="btn btn-primary">添加</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+@show
+
+@section('dialog-object-edit')
+<div class="modal fade" id="model-object-edit" tabindex="-1" role="dialog" aria-labelledby="model-label-edit">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="model-label-edit">编辑{{ $object_name }}</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="form-object-edit">
+          <div class="box-body">
+            <input type="hidden" name="id" value="" />
+            @yield('dialog-main-content')
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -108,8 +135,9 @@
 
     var btnColumnDefine = {
       "render": function(data, type, row){
-        return "<button type='button' bind_object_id='" + row.id + "' class='btn btn-primary btn-object-edit'>编辑</button>&nbsp;" +
-              "<button type='button' bind_object_id='" + row.id + "' class='btn btn-danger btn-object-delete'>删除</button>";
+        var btnEdit = "<button type='button' bind_object_id='" + row.id + "' class='btn btn-primary btn-object-edit' data-toggle='modal' data-target='#model-object-edit'>编辑</button>";
+        var btnDelete = "<button type='button' bind_object_id='" + row.id + "' class='btn btn-danger btn-object-delete'>删除</button>";
+        return btnEdit + '&nbsp;' + btnDelete;
       },
       "targets": {{ count($columns) }}
     };
@@ -138,6 +166,11 @@
       });
     }
 
+    function reset_edit_model(objID)
+    {
+      console.log('点击编辑按钮' + objID);
+    }
+
     function update_object_list(list, id)
     {
       $.ajax({ 
@@ -153,6 +186,12 @@
             $(this).click(function(){
               var objID = $(this).attr('bind_object_id');
               delete_object_by_id(objID);
+            });
+          });
+          $('button.btn-object-edit').each(function(){
+            $(this).click(function(){
+              var objID = $(this).attr('bind_object_id');
+              reset_edit_model(objID);
             });
           });
         }
@@ -182,7 +221,17 @@
   </script>
   @show
 
-  @yield('define_dt_conf')
+  @section('define_dt_conf')
+  <script>
+    var dataTableConfig = {
+      "language": chinese,
+      "columns": columns,
+      "columnDefs": [
+        btnColumnDefine
+      ]
+    };
+  </script>
+  @show
 
   @section('initialization')
   <script>
@@ -190,6 +239,7 @@
       objList = $("#object-list").DataTable(dataTableConfig);
       update_object_list(objList, 'all');
     });
+    //$('')
     $('#btn-object-create-submit').click(create_object);
   </script>
   @show

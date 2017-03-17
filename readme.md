@@ -103,11 +103,14 @@ Laravel development server started: <http://127.0.0.1:8000>
 时，服务启动成功，即可使用浏览器访问`http://127.0.0.1:8000/home`。
 
 登陆界面：
+
 ![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6tshb2j20z20ryt9o.jpg)
 
 注册界面：
+
 ![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6ttiktj20z20ry758.jpg)
 
 用户管理界面：
+
 ![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6trw0ej21490ry41a.jpg)
 

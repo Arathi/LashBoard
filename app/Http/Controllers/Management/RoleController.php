@@ -138,11 +138,15 @@ class RoleController extends AdminController
         {
             if ($role == null)
             {
+                $statusCode = 403;
+                $errorCode = 1;
+                $message = '要删除的角色不存在';
                 break;
             }
             if ($role->tag == 'guest' || $role->tag == 'admin')
             {
-                $errorCode = 1;
+                $statusCode = 403;
+                $errorCode = 2;
                 $message = '不能删除内置角色';
                 break;
             }
