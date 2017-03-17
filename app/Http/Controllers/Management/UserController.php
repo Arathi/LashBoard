@@ -36,8 +36,6 @@ class UserController extends AdminController
             new TableColumn('最后活跃', 'updated_at'),
         ];
 
-        if ($users == null) $users = [];
-
         $data = [
             'page_name' => '用户管理',
             'page_description' => '对用户进行增删改查等操作',
