@@ -8,7 +8,7 @@
 
 提供对用户的增删改查等功能。
 
-### 2. 菜单
+### 2. 菜单（正在开发）
 
 提供对菜单的增删改等功能。
 
@@ -16,7 +16,7 @@
 
 角色相当于用户的分组，一个用户暂时只能拥有一个角色。
 
-### 4. 权限管控
+### 4. 权限管控（未开发）
 
 对于某个页面没有权限的用户或角色，无法访问这个页面，也无法看到页面对应的菜单项。
 
@@ -28,7 +28,7 @@
 * 开启Laravel依赖的OpenSSL、PDO、Mbstring、Tokenizer、XML等扩展
 * 需要安装Composer
 
-详见[Laravel的安装指南](http://d.laravel-china.org/docs/5.4/installation)与[Composer相关文档](https://pkg.phpcomposer.com/#how-to-install-composer)
+详见[Laravel的安装指南](http://d.laravel-china.org/docs/5.4/installation)与[Composer相关文档](https://pkg.phpcomposer.com/#how-to-install-composer)。
 
 ### 1. 下载依赖包
 
@@ -94,7 +94,20 @@ php artisan migrate
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-然后使用浏览器访问`http://127.0.0.1:8000/home`即可访问。
+当输出
 
+```
+Laravel development server started: <http://127.0.0.1:8000>
+```
 
+时，服务启动成功，即可使用浏览器访问`http://127.0.0.1:8000/home`。
+
+登陆界面：
+![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6tshb2j20z20ryt9o.jpg)
+
+注册界面：
+![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6ttiktj20z20ry758.jpg)
+
+用户管理界面：
+![](http://ww1.sinaimg.cn/large/6d8d51f9gy1fdpu6trw0ej21490ry41a.jpg)
 
