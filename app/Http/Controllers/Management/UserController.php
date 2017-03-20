@@ -128,7 +128,38 @@ class UserController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        $statusCode = 200;
+        $code = 0;
+        $message = '更新成功！';
+        $user = User::find($id);
+        do
+        {
+            if ($user == null)
+            {
+                $statusCode = 404;
+                $code = 1;
+                $message = '该用户不存在！';
+                break;
+            }
+
+            $name = $request->input('name', null);
+            $role_id = $request->input('role_id', null);
+            // $email = $request->input('email', null);
+            $password = $request->input('password', null);
+
+            if ($name != null) $user->name = $name;
+            if ($role_id != null) $user->role_id = $role_id;
+            // if ($email != null) $user->email = $email;
+            if ($password != null) $user->password = bcrypt($password);
+
+            $user->save();
+        }
+        while (false);
+        $respData = [
+            'code' => $code,
+            'message' => $message,
+        ];
+        return response()->json($respData, $statusCode);
     }
 
     /**

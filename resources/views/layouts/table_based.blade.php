@@ -83,14 +83,14 @@
       <div class="modal-body">
         <form class="form-horizontal" id="form-object-edit">
           <div class="box-body">
-            <input type="hidden" name="id" value="" />
+            <input type="hidden" id="hidden-id" name="id" value="" />
             @yield('dialog-main-content')
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button id="btn-object-create-submit" type="button" class="btn btn-primary">添加</button>
+        <button id="btn-object-edit-submit" type="button" class="btn btn-primary">保存</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
       </div>
     </div>
@@ -166,9 +166,21 @@
       });
     }
 
-    function reset_edit_model(objID)
+    function reset_edit_model(id)
     {
-      console.log('点击编辑按钮' + objID);
+      console.log('点击编辑按钮' + id);
+      $.ajax({ 
+        type: "GET",
+        url: "{{ $resource_url }}/" + id,
+        success: function(data){
+          var user = data[0];
+          $('#model-object-edit #hidden-id').val(id);
+          $('#model-object-edit #tb-name').val(user.name);
+          $('#model-object-edit #tb-role').val(user.role_id);
+          $('#model-object-edit #tb-email').val(user.email);
+          $('#model-object-edit #tb-password').val();
+        }
+      });
     }
 
     function update_object_list(list, id)
@@ -209,12 +221,32 @@
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
           alert("{{ $object_name }}创建成功！");
-          // 实现局部刷新表格中的数据
           update_object_list(objList, data.new_record_id);
           $('#model-object-create').modal('hide');
         },
         error: function(request) {
           alert("{{ $object_name }}创建失败！");
+        },
+      });
+    }
+
+    function update_object()
+    {
+      var id = $('#model-object-edit #hidden-id').val();
+      $.ajax({
+        cache: true,
+        type: "PUT",
+        url: "{{ $resource_url }}/" + id,
+        data: $('#form-object-edit').serialize(),
+        async: false,
+        contentType: 'application/x-www-form-urlencoded',
+        success: function(data) {
+          alert("{{ $object_name }}更新成功！");
+          update_object_list(objList, 'all');
+          $('#model-object-edit').modal('hide');
+        },
+        error: function(request) {
+          alert("{{ $object_name }}更新失败！");
         },
       });
     }
@@ -239,7 +271,7 @@
       objList = $("#object-list").DataTable(dataTableConfig);
       update_object_list(objList, 'all');
     });
-    //$('')
+    $('#btn-object-edit-submit').click(update_object);
     $('#btn-object-create-submit').click(create_object);
   </script>
   @show

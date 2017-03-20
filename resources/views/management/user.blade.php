@@ -4,14 +4,14 @@
 <div class="form-group">
   <label for="new-user-name" class="col-sm-3 control-label">用户名：</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" name="name" placeholder="username" />
+    <input type="text" id="tb-name" class="form-control" name="name" placeholder="username" />
   </div>
 </div>
 
 <div class="form-group">
   <label for="new-user-roleid" class="col-sm-3 control-label">角色：</label>
   <div class="col-sm-6">
-    <select class="form-control" name="role_id">
+    <select class="form-control" id="combo-role" name="role_id">
       @foreach($roles as $role)
       <option value='{{ $role->id }}'>{{ $role->name }}</option>
       @endforeach
@@ -22,14 +22,14 @@
 <div class="form-group">
   <label for="new-user-email" class="col-sm-3 control-label">E-Mail：</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" name="email" placeholder="email" />
+    <input type="text" id="tb-email" class="form-control" name="email" placeholder="email" />
   </div>
 </div>
 
 <div class="form-group">
   <label for="new-user-password" class="col-sm-3 control-label">密码：</label>
   <div class="col-sm-6">
-    <input type="password" class="form-control" name="password" placeholder="password" />
+    <input type="password" id="tb-password" class="form-control" name="password" placeholder="password" />
   </div>
 </div>
 @endsection
