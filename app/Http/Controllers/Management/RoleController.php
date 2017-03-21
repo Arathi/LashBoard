@@ -117,7 +117,38 @@ class RoleController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        $statusCode = 200;
+        $code = 0;
+        $message = '更新成功！';
+
+        $role = Role::find($id);
+        do
+        {
+            if ($role == null)
+            {
+                $statusCode = 404;
+                $code = 1;
+                $message = '该角色不存在！';
+                break;
+            }
+
+            $name = $request->input('name', null);
+            $tag = $request->input('tag', null);
+            $description = $request->input('description', null);
+
+            if ($name != null) $role->name = $name;
+            if ($tag != null) $role->tag = $tag;
+            if ($description != null) $role->description = $description;
+
+            $role->save();
+        }
+        while (false);
+
+        $respData = [
+            'code' => $code,
+            'message' => $message,
+        ];
+        return response()->json($respData, $statusCode);
     }
 
     /**

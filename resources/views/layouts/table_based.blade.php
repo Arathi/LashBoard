@@ -144,6 +144,8 @@
   </script>
   @show
 
+  @yield('define_reset_action')
+  
   @section('js_functions_define')
   <script>
     function delete_object_by_id(id)
@@ -168,17 +170,12 @@
 
     function reset_edit_model(id)
     {
-      console.log('点击编辑按钮' + id);
       $.ajax({ 
         type: "GET",
         url: "{{ $resource_url }}/" + id,
-        success: function(data){
-          var user = data[0];
-          $('#model-object-edit #hidden-id').val(id);
-          $('#model-object-edit #tb-name').val(user.name);
-          $('#model-object-edit #tb-role').val(user.role_id);
-          $('#model-object-edit #tb-email').val(user.email);
-          $('#model-object-edit #tb-password').val();
+        success: function(data) {
+          var modelSelector = '#model-object-edit';
+          reset_model_elements(data, modelSelector);
         }
       });
     }

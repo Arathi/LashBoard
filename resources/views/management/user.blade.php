@@ -52,3 +52,16 @@
   };
 </script>
 @endsection
+
+@section('define_reset_action')
+<script>
+  function reset_model_elements(data, modelSelector) {
+    var user = data[0];
+    $(modelSelector + ' #hidden-id').val(user.id);
+    $(modelSelector + ' #tb-name').val(user.name);
+    $(modelSelector + ' #tb-role').val(user.role_id);
+    $(modelSelector + ' #tb-email').val(user.email);
+    $(modelSelector + ' #tb-password').val();
+  }
+</script>
+@endsection

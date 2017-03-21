@@ -4,21 +4,21 @@
 <div class="form-group">
   <label for="new-user-name" class="col-sm-3 control-label">角色名：</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" name="name" placeholder="username" />
+    <input type="text" id="tb-name" class="form-control" name="name" placeholder="rolename" />
   </div>
 </div>
 
 <div class="form-group">
   <label for="new-user-email" class="col-sm-3 control-label">标记：</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" name="tag" placeholder="tag" />
+    <input type="text" id="tb-tag" class="form-control" name="tag" placeholder="tag" />
   </div>
 </div>
 
 <div class="form-group">
   <label for="new-user-email" class="col-sm-3 control-label">描述：</label>
   <div class="col-sm-6">
-    <input type="text" class="form-control" name="description" placeholder="描述该角色的定位以及需要的功能" />
+    <input type="text" id="tb-descr" class="form-control" name="description" placeholder="描述该角色的定位以及需要的功能" />
   </div>
 </div>
 @endsection
@@ -32,5 +32,17 @@
       btnColumnDefine
     ]
   };
+</script>
+@endsection
+
+@section('define_reset_action')
+<script>
+  function reset_model_elements(data, modelSelector) {
+    var role = data[0];
+    $(modelSelector + ' #hidden-id').val(role.id);
+    $(modelSelector + ' #tb-name').val(role.name);
+    $(modelSelector + ' #tb-tag').val(role.tag);
+    $(modelSelector + ' #tb-descr').val(role.description);
+  }
 </script>
 @endsection
