@@ -174,8 +174,7 @@
         type: "GET",
         url: "{{ $resource_url }}/" + id,
         success: function(data) {
-          var modelSelector = '#model-object-edit';
-          reset_model_elements(data, modelSelector);
+          reset_model_elements(data, 'edit');
         }
       });
     }
@@ -267,6 +266,9 @@
     $(function () {
       objList = $("#object-list").DataTable(dataTableConfig);
       update_object_list(objList, 'all');
+    });
+    $('#btn-object-create').click(function(){
+      reset_model_elements(null, 'create');
     });
     $('#btn-object-edit-submit').click(update_object);
     $('#btn-object-create-submit').click(create_object);

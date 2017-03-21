@@ -55,13 +55,22 @@
 
 @section('define_reset_action')
 <script>
-  function reset_model_elements(data, modelSelector) {
-    var user = data[0];
-    $(modelSelector + ' #hidden-id').val(user.id);
-    $(modelSelector + ' #tb-name').val(user.name);
-    $(modelSelector + ' #tb-role').val(user.role_id);
-    $(modelSelector + ' #tb-email').val(user.email);
-    $(modelSelector + ' #tb-password').val();
+  function reset_model_elements(data, mode) {
+    var modelSelector = '#model-object-' + mode;
+    if (mode == 'create') {
+      $(modelSelector + ' #tb-name').val("");
+      $(modelSelector + " #combo-role").val({{ $default_role_id }});
+      $(modelSelector + ' #tb-email').val("");
+      $(modelSelector + ' #tb-password').val("");
+    }
+    else if (mode == 'edit') {
+      var user = data[0];
+      $(modelSelector + ' #hidden-id').val(user.id);
+      $(modelSelector + ' #tb-name').val(user.name);
+      $(modelSelector + " #combo-role").val(user.role_id);
+      $(modelSelector + ' #tb-email').val(user.email);
+      $(modelSelector + ' #tb-password').val("");
+    }
   }
 </script>
 @endsection

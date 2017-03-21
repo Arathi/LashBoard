@@ -37,12 +37,20 @@
 
 @section('define_reset_action')
 <script>
-  function reset_model_elements(data, modelSelector) {
-    var role = data[0];
-    $(modelSelector + ' #hidden-id').val(role.id);
-    $(modelSelector + ' #tb-name').val(role.name);
-    $(modelSelector + ' #tb-tag').val(role.tag);
-    $(modelSelector + ' #tb-descr').val(role.description);
+  function reset_model_elements(data, mode) {
+    var modelSelector = '#model-object-' + mode;
+    if (mode == 'create') {
+      $(modelSelector + ' #tb-name').val("");
+      $(modelSelector + ' #tb-tag').val("");
+      $(modelSelector + ' #tb-descr').val("");
+    }
+    else if (mode == 'edit') {
+      var role = data[0];
+      $(modelSelector + ' #hidden-id').val(role.id);
+      $(modelSelector + ' #tb-name').val(role.name);
+      $(modelSelector + ' #tb-tag').val(role.tag);
+      $(modelSelector + ' #tb-descr').val(role.description);
+    }
   }
 </script>
 @endsection

@@ -25,6 +25,8 @@ class UserController extends AdminController
     public function index()
     {
         $roles = Role::all();
+        $guest = Role::where('tag', 'guest')->first();
+        $guest_role_id = $guest->id;
 
         $columns = [
             new TableColumn('UID', 'id'),
@@ -43,6 +45,7 @@ class UserController extends AdminController
             'resource_url' => url('management/user'),
             'roles' => $roles,
             'columns' => $columns,
+            'default_role_id' => $guest_role_id,
         ];
         return $this->parse('management.user', $data, 'mgmt_user');
     }
