@@ -10,7 +10,7 @@
   <a id="btn-object-create" href="#" class='btn btn-success pull-right' 
       data-toggle="modal" data-target="#model-object-create"
       style='margin-right: 15px;margin-bottom: 15px;'>
-    <i class='fa fa-user-plus'></i> 添加{{ $object_name }}
+    <i class='fa fa-plus'></i> 添加{{ $object_name }}
   </a>
 </div>
 <div class="box">

@@ -12,7 +12,7 @@ if (! function_exists('cdn_asset')) {
         }
         if ($cdn == 'disable')
         {
-            $prefix = asset($libName . '/' . $libVer);
+            $prefix = asset('libs/' . $libName . '/' . $libVer);
         }
         else
         {
